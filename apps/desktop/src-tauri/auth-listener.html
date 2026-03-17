@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Microsoft Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0d1117;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+        }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #238636;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        h2 {
+            margin: 0 0 10px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        p {
+            margin: 0;
+            color: #8b949e;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="spinner"></div>
+        <h2>Authenticating...</h2>
+        <p>Please wait while we complete your login</p>
+    </div>
+
+    <script>
+        // Check if we're on the redirect URL
+        const currentUrl = window.location.href;
+        
+        if (currentUrl.includes('login.live.com/oauth20_desktop.srf')) {
+            // We're on the redirect page, extract the code
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            
+            if (code) {
+                // Send the code to the backend
+                window.__TAURI__.core.invoke('handle_auth_redirect', { url: currentUrl })
+                    .then(() => {
+                        console.log('Authentication successful');
+                    })
+                    .catch(err => {
+                        console.error('Authentication failed:', err);
+                    });
+            }
+        }
+    </script>
+</body>
+</html>

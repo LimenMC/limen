@@ -1,0 +1,34 @@
+{
+  "name": "limen-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "license": "GPL-3.0",
+  "type": "module",
+  "bin": {
+    "limen": "./bin/limen.js"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "limen": "node scripts/limen.js",
+    "dev": "node scripts/limen.js dev desktop",
+    "dev:desktop": "node scripts/limen.js dev desktop",
+    "dev:web": "node scripts/limen.js dev web",
+    "dev:bot": "npm run dev --workspace=apps/dc-bot",
+    "build": "node scripts/limen.js build all",
+    "build:desktop": "node scripts/limen.js build desktop",
+    "build:web": "node scripts/limen.js build web",
+    "build:packages": "node scripts/limen.js build packages",
+    "build:bot": "npm run build --workspace=apps/dc-bot",
+    "deploy:bot": "npm run deploy --workspace=apps/dc-bot",
+    "tauri": "npm run tauri --workspace=apps/desktop",
+    "lint": "npm run lint --workspaces --if-present",
+    "clean": "node scripts/limen.js clean"
+  },
+  "devDependencies": {
+    "@crowdin/cli": "^4.14.0",
+    "typescript": "^5.5.3"
+  }
+}
